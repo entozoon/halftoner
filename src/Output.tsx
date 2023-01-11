@@ -25,6 +25,7 @@ export const Output = () => {
       // Render output
       canvasOutput.width = image.width;
       canvasOutput.height = image.height;
+
       for (let x = 0; x < image.width; x += 20) {
         for (let y = 0; y < image.height; y += 20) {
           // Get pixel colour

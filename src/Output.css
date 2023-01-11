@@ -1,12 +1,13 @@
 .canvas-wrapper {
-  flex-grow: 1;
   border: 1px solid #444;
   width: 100%;
   max-height: 100vh;
 }
 canvas {
+  max-width: 100%;
 }
 .input {
 }
 .output {
+  background: rgb(192, 161, 126);
 }

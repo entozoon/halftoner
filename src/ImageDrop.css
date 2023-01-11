@@ -2,6 +2,7 @@
   padding: 1em;
   border: 5px inset blue;
   cursor: pointer;
+  margin-right: 0.5em;
 }
 .image-drop:hover {
   opacity: 0.8;

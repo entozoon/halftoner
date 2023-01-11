@@ -5,6 +5,13 @@ body {
 }
 .App {
   display: flex;
+  align-items: center;
+}
+aside {
+  width: 20%;
+}
+.canvas-wrapper {
+  max-width: 40%;
 }
 .alert {
   margin: 1em 0;

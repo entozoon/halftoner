@@ -14,10 +14,18 @@ export const Controls = ({
   setContextControls: React.Dispatch<React.SetStateAction<any>>;
 }) => {
   const [values, setValues] = useState(ControlDefaults);
+  const [debounce, setDebounce] = useState<NodeJS.Timeout | null>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: parseFloat(value) });
-    setContextControls(values);
+    // Smallest debounce just to force the stack
+    if (debounce) clearTimeout(debounce);
+    setDebounce(
+      setTimeout(() => {
+        setContextControls(values);
+        console.log("d");
+      }, 5)
+    );
   };
   return (
     <form className="controls">

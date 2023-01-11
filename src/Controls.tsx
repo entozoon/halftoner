@@ -14,7 +14,9 @@ export const Controls = ({
   setContextControls: React.Dispatch<React.SetStateAction<any>>;
 }) => {
   const [values, setValues] = useState(ControlDefaults);
-  const [debounce, setDebounce] = useState<NodeJS.Timeout | null>(null);
+  const [debounce, setDebounce] = useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: parseFloat(value) });

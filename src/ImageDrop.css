@@ -1,0 +1,8 @@
+.image-drop {
+  padding: 1em;
+  border: 5px inset blue;
+  cursor: pointer;
+}
+.image-drop:hover {
+  opacity: 0.8;
+}

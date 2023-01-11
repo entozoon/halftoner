@@ -1,0 +1,9 @@
+body {
+  background: black;
+  color: dodgerblue;
+  font-family: tahoma, verdana;
+}
+.alert {
+  background: #330000;
+  color: white;
+}

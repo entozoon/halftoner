@@ -1,2 +1,3 @@
-# halftoner
-🀝 It halftones.
+# Halftoner
+
+⠝ It halftones

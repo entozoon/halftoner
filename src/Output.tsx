@@ -25,14 +25,18 @@ export const Output = () => {
       // Render output
       canvasOutput.width = image.width;
       canvasOutput.height = image.height;
-      // Get pixel colour
-      const pixel = ctxInput.getImageData(0, 0, 1, 1).data;
-      const [r, g, b, a] = pixel;
-      // Draw circle
-      ctxOutput.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
-      ctxOutput.beginPath();
-      ctxOutput.arc(200, 200, 100, 0, 2 * Math.PI);
-      ctxOutput.fill();
+      for (let x = 0; x < image.width; x += 20) {
+        for (let y = 0; y < image.height; y += 20) {
+          // Get pixel colour
+          const pixel = ctxInput.getImageData(x, y, 1, 1).data;
+          const [r, g, b, a] = pixel;
+          // Draw circle
+          ctxOutput.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
+          ctxOutput.beginPath();
+          ctxOutput.arc(x, y, 8, 0, 2 * Math.PI);
+          ctxOutput.fill();
+        }
+      }
     };
   }, [contextImage]);
   if (!contextImage) return null;

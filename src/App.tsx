@@ -1,14 +1,15 @@
 import { ImageDrop } from "./ImageDrop";
 import "./App.css";
 import { createContext, useState } from "react";
-export const ContextImage = createContext({});
+import { Output } from "./Output";
+export const ContextImage = createContext<null | File>(null);
 const App = () => {
-  const [contextImage, setContextImage] = useState({});
+  const [contextImage, setContextImage] = useState<null | File>(null);
   return (
     <main className="App">
       <ContextImage.Provider value={contextImage}>
         <ImageDrop {...{ setContextImage }} />
-        {/* const contextImage = useContext(ContextImage); */}
+        <Output />
       </ContextImage.Provider>
     </main>
   );

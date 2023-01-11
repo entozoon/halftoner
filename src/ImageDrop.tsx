@@ -4,22 +4,21 @@ import "./ImageDrop.css";
 export const ImageDrop = ({
   setContextImage,
 }: {
-  setContextImage: React.Dispatch<React.SetStateAction<{}>>;
+  setContextImage: React.Dispatch<React.SetStateAction<null | File>>;
 }) => {
   const [error, setError] = useState("");
   const onDrop = (files: File[]) => {
-    console.log(":: ~ files", files);
+    setError("");
     if (files.length > 1) {
       setError("Only one image allowed");
-      return;
+      return setContextImage(null);
     }
     if (files.length === 0) {
       setError("No valid image found");
-      return;
+      return setContextImage(null);
     }
     const file = files[0];
-    console.log(":: ~ file", file);
-    setContextImage({ file });
+    return setContextImage(file);
   };
   const { getInputProps, getRootProps, isDragActive } = useDropzone({
     accept: {

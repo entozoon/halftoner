@@ -3,7 +3,12 @@ body {
   color: dodgerblue;
   font-family: tahoma, verdana;
 }
+.App {
+  display: flex;
+}
 .alert {
+  margin: 1em 0;
+  padding: 1em;
   background: #330000;
   color: white;
 }

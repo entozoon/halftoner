@@ -1,0 +1,7 @@
+.output {
+  flex-grow: 1;
+  border: 1px solid #444;
+}
+canvas {
+  width: 100%;
+}

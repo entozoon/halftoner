@@ -24,6 +24,8 @@ export const ImageDrop = ({
     accept: {
       "image/jpeg": [],
       "image/png": [],
+      "image/webp": [],
+      "image/bmp": [],
     },
     onDrop,
   });

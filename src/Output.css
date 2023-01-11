@@ -1,7 +1,12 @@
-.output {
+.canvas-wrapper {
   flex-grow: 1;
   border: 1px solid #444;
+  width: 100%;
+  max-height: 100vh;
 }
 canvas {
-  width: 100%;
+}
+.input {
+}
+.output {
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import "./ImageDrop.css";
+import "./ImageDrop.scss";
 export const ImageDrop = ({
   setContextImage,
 }: {

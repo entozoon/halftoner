@@ -1,11 +1,12 @@
 import { useContext, useEffect } from "react";
-import { ContextImage } from "./App";
-import "./Output.css";
-const maxRadius = 12;
-const spacing = 1.5; // factor of maxRadius
+import { ContextControls, ContextImage } from "./App";
+import "./Output.scss";
 export const Output = () => {
-  let contextImage = useContext(ContextImage);
+  const contextImage = useContext(ContextImage);
+  const contextControls = useContext(ContextControls);
   useEffect(() => {
+    if (!contextControls) return;
+    const { maxRadius, spacing } = contextControls;
     const image = new Image();
     image.src = contextImage
       ? URL.createObjectURL(contextImage)
@@ -44,7 +45,7 @@ export const Output = () => {
         }
       }
     };
-  }, [contextImage]);
+  }, [contextImage, contextControls]);
   return (
     <>
       <div className="canvas-wrapper input">

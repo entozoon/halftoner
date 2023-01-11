@@ -2,6 +2,7 @@ body {
   background: black;
   color: dodgerblue;
   font-family: tahoma, verdana;
+  font-size: clamp(0.75rem, 2vw, 1.2rem);
 }
 .App {
   display: flex;
@@ -9,6 +10,7 @@ body {
 }
 aside {
   width: 20%;
+  padding: 0.5em;
 }
 .canvas-wrapper {
   max-width: 40%;

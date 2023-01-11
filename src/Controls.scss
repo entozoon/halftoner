@@ -1,0 +1,21 @@
+.controls {
+  color: white;
+  border: 5px inset burlywood;
+  padding: 0.5em;
+}
+section {
+  margin: 0 0 0.5em;
+}
+div {
+  display: flex;
+}
+label {
+  flex-grow: 1;
+}
+output {
+  opacity: 0.5;
+}
+input {
+  font-size: inherit;
+  width: 100%;
+}

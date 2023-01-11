@@ -2,13 +2,15 @@ import { useContext, useEffect } from "react";
 import { ContextImage } from "./App";
 import "./Output.css";
 export const Output = () => {
-  const contextImage = useContext(ContextImage);
+  let contextImage = useContext(ContextImage);
   useEffect(() => {
-    if (!contextImage) return;
     const image = new Image();
-    image.src = URL.createObjectURL(contextImage);
+    image.src = contextImage
+      ? URL.createObjectURL(contextImage)
+      : "example.jpg";
+
     image.onload = () => {
-      URL.revokeObjectURL(image.src);
+      URL.revokeObjectURL(image.src); // only if blob? :shrug:
       const canvasInput = document.querySelector(
         ".input canvas"
       ) as HTMLCanvasElement;
@@ -25,7 +27,6 @@ export const Output = () => {
       // Render output
       canvasOutput.width = image.width;
       canvasOutput.height = image.height;
-
       for (let x = 0; x < image.width; x += 20) {
         for (let y = 0; y < image.height; y += 20) {
           // Get pixel colour
@@ -40,7 +41,6 @@ export const Output = () => {
       }
     };
   }, [contextImage]);
-  if (!contextImage) return null;
   return (
     <>
       <div className="canvas-wrapper input">

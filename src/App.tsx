@@ -1,7 +1,7 @@
 import { ImageDrop } from "./ImageDrop";
-import "./App.css";
 import { createContext, useState } from "react";
 import { Output } from "./Output";
+import "./App.css";
 export const ContextImage = createContext<null | File>(null);
 const App = () => {
   const [contextImage, setContextImage] = useState<null | File>(null);

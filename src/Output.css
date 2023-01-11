@@ -9,5 +9,12 @@ canvas {
 .input {
 }
 .output {
-  background: rgb(192, 161, 126);
+  background: white;
+}
+.output:hover {
+  transition: all 0.3s ease;
+  background: rgb(198, 169, 135);
+}
+.output:hover canvas {
+  mix-blend-mode: multiply;
 }

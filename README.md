@@ -8,7 +8,6 @@
 
 - Average colour, not point
 - Thickness
-- Halftone v-offset, diamond style
 - Separation
 - Colour limiting /
 - Colour modes

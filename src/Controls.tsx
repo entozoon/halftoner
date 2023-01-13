@@ -3,10 +3,12 @@ import "./Controls.scss";
 export interface ControlsValues {
   maxRadius: number;
   spacing: number;
+  vOffset: number;
 }
 export const ControlDefaults = {
-  maxRadius: 12,
-  spacing: 1.5,
+  maxRadius: 8,
+  spacing: 2,
+  vOffset: 1,
 };
 export const Controls = ({
   setContextControls,
@@ -40,9 +42,9 @@ export const Controls = ({
           type="range"
           id="maxRadius"
           name="maxRadius"
-          min="1"
+          min="7"
           max="100"
-          step="0.1"
+          step="1"
           value={values.maxRadius}
           onChange={handleChange}
         />
@@ -57,9 +59,25 @@ export const Controls = ({
           id="spacing"
           name="spacing"
           min="1"
-          max="100"
+          max="3"
           step="0.1"
           value={values.spacing}
+          onChange={handleChange}
+        />
+      </section>
+      <section>
+        <div>
+          <label htmlFor="vOffset">Vertical Offset</label>
+          <output>{values.vOffset}</output>
+        </div>
+        <input
+          type="range"
+          id="vOffset"
+          name="vOffset"
+          min="0"
+          max="1"
+          step="0.1"
+          value={values.vOffset}
           onChange={handleChange}
         />
       </section>

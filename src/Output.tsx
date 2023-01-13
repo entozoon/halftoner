@@ -6,7 +6,7 @@ export const Output = () => {
   const contextControls = useContext(ContextControls);
   useEffect(() => {
     if (!contextControls) return;
-    const { maxRadius, spacing } = contextControls;
+    const { maxRadius, spacing, vOffset } = contextControls;
     const image = new Image();
     image.src = contextImage
       ? URL.createObjectURL(contextImage)
@@ -29,19 +29,34 @@ export const Output = () => {
       // Render output
       canvasOutput.width = image.width;
       canvasOutput.height = image.height;
-      for (let x = 0; x < image.width; x += spacing * maxRadius) {
-        for (let y = 0; y < image.height; y += spacing * maxRadius) {
-          // Get pixel colour
-          const pixel = ctxInput.getImageData(x, y, 1, 1).data;
-          const [r, g, b, a] = pixel;
-          // Get pixel brightness factor
-          const brightness = (r + g + b) / 3 / 255;
-          const radius = maxRadius - maxRadius * brightness;
-          // Draw circle
-          ctxOutput.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
-          ctxOutput.beginPath();
-          ctxOutput.arc(x, y, radius, 0, 2 * Math.PI);
-          ctxOutput.fill();
+      for (
+        let _x = 0, _xI = 0;
+        _x < image.width;
+        _x += spacing * maxRadius, _xI++
+      ) {
+        for (
+          let _y = 0, _yI = 0;
+          _y < image.height;
+          _y += spacing * maxRadius, _yI++
+        ) {
+          let x = _x;
+          let y = _y;
+          // vOffset
+          if (_xI % 2 === 0) y += vOffset * maxRadius;
+          _xI;
+          if (x >= 0 && x < image.width && y >= 0 && y < image.height) {
+            // Get pixel colour
+            const pixel = ctxInput.getImageData(x, y, 1, 1).data;
+            const [r, g, b, a] = pixel;
+            // Get pixel brightness factor
+            const brightness = (r + g + b) / 3 / 255;
+            const radius = maxRadius - maxRadius * brightness;
+            // Draw circle
+            ctxOutput.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
+            ctxOutput.beginPath();
+            ctxOutput.arc(x, y, radius, 0, 2 * Math.PI);
+            ctxOutput.fill();
+          }
         }
       }
     };

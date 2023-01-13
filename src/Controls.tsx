@@ -6,13 +6,18 @@ export interface ControlsValues {
   maxRadius: number;
   spacing: number;
   vOffset: number;
+  colorMode: string;
+}
+export enum ColorModes {
+  rgb = "RGB",
+  greyScale = "Greyscale",
 }
 export const ControlDefaults = {
   example: "example1.jpg",
   maxRadius: 8,
   spacing: 2,
   vOffset: 1,
-  colourMode: `greyscale`,
+  colorMode: ColorModes.rgb,
 };
 export const Controls = ({
   setContextControls,
@@ -111,17 +116,19 @@ export const Controls = ({
       </section>
       <div>Colour Modes</div>
       <fieldset>
-        <div>
-          <input
-            type="radio"
-            name="colourMode"
-            id="colourModegreyscale"
-            value="1"
-            onChange={handleChange}
-            checked={values.colourMode === `greyscale`}
-          />
-          <label htmlFor="colourModegreyscale">Greyscale</label>
-        </div>
+        {Object.values(ColorModes).map((mode) => (
+          <div key={mode}>
+            <input
+              type="radio"
+              name="colorMode"
+              id={`colorMode${mode}`}
+              value={mode}
+              onChange={handleChange}
+              checked={values.colorMode === mode}
+            />
+            <label htmlFor={`colorMode${mode}`}>{mode}</label>
+          </div>
+        ))}
       </fieldset>
     </form>
   );

@@ -3,10 +3,10 @@ import { ContextControls, ContextImage } from "./App";
 import { setupCanvases } from "./canvas";
 import "./Output.scss";
 import {
-  getAverageColourFromPixelArray,
+  getAveragePixelFromPixelArray,
   getPixelBrightness,
   getPixelsForArea,
-  renderPixelsToConsole,
+  modifyPixelByColorMode,
 } from "./pixels";
 export const Output = () => {
   const contextImage = useContext(ContextImage);
@@ -14,7 +14,7 @@ export const Output = () => {
   // useEffect trigger whenever contextControls or contextImage changes
   useEffect(() => {
     if (!contextControls) return;
-    const { example, maxRadius, spacing, vOffset } = contextControls;
+    const { example, maxRadius, spacing, vOffset, colorMode } = contextControls;
     const image = new Image();
     image.src = contextImage ? URL.createObjectURL(contextImage) : example;
     image.onload = () => {
@@ -45,7 +45,12 @@ export const Output = () => {
               maxRadius * 2
             );
             // renderPixelsToConsole(pixels, maxRadius * 2);
-            const { r, g, b, a } = getAverageColourFromPixelArray(pixels);
+            const pixelAverage = getAveragePixelFromPixelArray(pixels);
+            // Color modes
+            const { r, g, b, a } = modifyPixelByColorMode(
+              pixelAverage,
+              colorMode
+            );
             // Get pixel brightness factor
             const brightness = getPixelBrightness(r, g, b, a);
             // Amplitude modulation of radius by brightness

@@ -1,4 +1,12 @@
-// show hex colours in console of flat pixel array
+import { ColorModes } from "./Controls";
+
+export interface Pixel {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+// Log hex colours of flat pixel array
 export const renderPixelsToConsole = (
   pixels: Uint8ClampedArray,
   rowWidth: number
@@ -32,7 +40,9 @@ export const getPixelsForArea = (
     Math.min(width * 2, image.height - aY)
   ).data;
 };
-export const getAverageColourFromPixelArray = (pixels: Uint8ClampedArray) => {
+export const getAveragePixelFromPixelArray = (
+  pixels: Uint8ClampedArray
+): Pixel => {
   // Get average colour from pixel image data
   let totalR = 0;
   let totalG = 0;
@@ -57,3 +67,20 @@ export const getPixelBrightness = (
   b: number,
   a: number
 ) => (r + g + b + a) / 4 / 255;
+export const modifyPixelByColorMode = (pixel: Pixel, mode: string) => {
+  if (mode === ColorModes.rgb) {
+    return pixel;
+  }
+  if (mode === ColorModes.greyScale) {
+    const brightness = getPixelBrightness(pixel.r, pixel.g, pixel.b, pixel.a);
+    return {
+      r: brightness * 255,
+      g: brightness * 255,
+      b: brightness * 255,
+      // a: 1,
+      // a: pixel.a,
+      a: brightness * 255,
+    };
+  }
+  return pixel;
+};

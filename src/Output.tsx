@@ -6,6 +6,7 @@ import {
   getAveragePixelFromPixelArray,
   getPixelBrightness,
   getPixelsForArea,
+  getPaletteFromPixelArray,
   modifyPixelByColorMode,
 } from "./pixels";
 export const Output = () => {
@@ -14,11 +15,22 @@ export const Output = () => {
   // useEffect trigger whenever contextControls or contextImage changes
   useEffect(() => {
     if (!contextControls) return;
-    const { example, maxRadius, spacing, vOffset, colorMode } = contextControls;
+    const { example, maxRadius, spacing, vOffset, colorMode, paletteSize } =
+      contextControls;
     const image = new Image();
     image.src = contextImage ? URL.createObjectURL(contextImage) : example;
     image.onload = () => {
       const { ctxInput, ctxOutput } = setupCanvases(image);
+      const allPixels = ctxInput.getImageData(
+        0,
+        0,
+        image.width,
+        image.height
+      ).data;
+      const palette =
+        paletteSize <= 10
+          ? getPaletteFromPixelArray(allPixels, paletteSize)
+          : undefined;
       for (
         let _x = 0, _xI = 0;
         _x < image.width;
@@ -47,10 +59,12 @@ export const Output = () => {
             // renderPixelsToConsole(pixels, maxRadius * 2);
             const pixelAverage = getAveragePixelFromPixelArray(pixels);
             // Color modes
-            const { r, g, b, a } = modifyPixelByColorMode(
+            const pixel = modifyPixelByColorMode(
               pixelAverage,
-              colorMode
+              colorMode,
+              palette
             );
+            const { r, g, b, a } = pixel;
             // Get pixel brightness factor
             const brightness = getPixelBrightness(r, g, b, a);
             // Amplitude modulation of radius by brightness

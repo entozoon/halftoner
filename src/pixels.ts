@@ -1,12 +1,12 @@
+import { ColorThiefProvider } from "./ColorThiefProvider";
 import { ColorModes } from "./Controls";
-
 export interface Pixel {
   r: number;
   g: number;
   b: number;
   a: number;
 }
-// Log hex colours of flat pixel array
+// Log hex colors of flat pixel array
 export const renderPixelsToConsole = (
   pixels: Uint8ClampedArray,
   rowWidth: number
@@ -43,7 +43,7 @@ export const getPixelsForArea = (
 export const getAveragePixelFromPixelArray = (
   pixels: Uint8ClampedArray
 ): Pixel => {
-  // Get average colour from pixel image data
+  // Get average color from pixel image data
   let totalR = 0;
   let totalG = 0;
   let totalB = 0;
@@ -67,7 +67,43 @@ export const getPixelBrightness = (
   b: number,
   a: number
 ) => (r + g + b + a) / 4 / 255;
-export const modifyPixelByColorMode = (pixel: Pixel, mode: string) => {
+// Extract color palette from pixels via color quantization
+export const getPaletteFromPixelArray = (
+  pixels: Uint8ClampedArray,
+  n: number
+): Pixel[] => {
+  // Get color palette quantized from pixels
+  const colorThief = new ColorThiefProvider();
+  const palette = [];
+  const colorThiefPalette = colorThief.getPalette(pixels, n);
+  // Always have black and white in the palette, trust
+  palette.push([0, 0, 0]);
+  palette.push([255, 255, 255]);
+  if (colorThiefPalette) {
+    console.log(":: ~ colorThiefPalette", colorThiefPalette.length);
+    palette.push(...colorThiefPalette);
+  }
+  return palette.map((c) => ({
+    r: c[0],
+    g: c[1],
+    b: c[2],
+    a: 255,
+  }));
+};
+export const modifyPixelByColorMode = (
+  pixel: Pixel,
+  mode: string,
+  palette?: Pixel[]
+) => {
+  if (palette) {
+    // Find nearest colour in palette based on rgb distance
+    const nearest = palette?.reduce((prev, curr) => {
+      const prevDist = Math.abs(prev.r - pixel.r) + Math.abs(prev.g - pixel.g);
+      const currDist = Math.abs(curr.r - pixel.r) + Math.abs(curr.g - pixel.g);
+      return currDist < prevDist ? curr : prev;
+    });
+    pixel = nearest ?? pixel;
+  }
   if (mode === ColorModes.rgb) {
     return pixel;
   }
@@ -80,6 +116,22 @@ export const modifyPixelByColorMode = (pixel: Pixel, mode: string) => {
       // a: 1,
       // a: pixel.a,
       a: brightness * 255,
+    };
+  }
+  if (mode === ColorModes.inverted) {
+    return {
+      r: 255 - pixel.r,
+      g: 255 - pixel.g,
+      b: 255 - pixel.b,
+      a: pixel.a,
+    };
+  }
+  if (mode === ColorModes.sepia) {
+    return {
+      r: Math.min(255, pixel.r * 0.393 + pixel.g * 0.769 + pixel.b * 0.189),
+      g: Math.min(255, pixel.r * 0.349 + pixel.g * 0.686 + pixel.b * 0.168),
+      b: Math.min(255, pixel.r * 0.272 + pixel.g * 0.534 + pixel.b * 0.131),
+      a: pixel.a,
     };
   }
   return pixel;

@@ -4,13 +4,15 @@
   padding: 0.5em;
 }
 section {
-  margin: 0 0 0.5em;
+  margin: 0 0 1em;
   > div {
     display: flex;
   }
 }
 label {
+  display: block;
   flex-grow: 1;
+  margin-bottom: 0.2em;
 }
 output {
   opacity: 0.5;
@@ -22,6 +24,7 @@ input {
 // radios
 fieldset {
   display: flex;
+  flex-wrap: wrap;
   border: 0;
   padding: 0;
   margin: 0;

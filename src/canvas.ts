@@ -15,7 +15,7 @@ export const setupCanvases = (
   ) as HTMLCanvasElement;
   const ctxInput = canvasInput?.getContext("2d");
   const ctxOutput = canvasOutput?.getContext("2d");
-  if (!canvasInput || !ctxInput || !ctxOutput) return;
+  if (!canvasInput || !ctxInput || !ctxOutput) return {} as any;
   // Render input
   canvasInput.width = image.width;
   canvasInput.height = image.height;

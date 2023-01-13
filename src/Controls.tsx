@@ -7,17 +7,21 @@ export interface ControlsValues {
   spacing: number;
   vOffset: number;
   colorMode: string;
+  paletteSize: number;
 }
 export enum ColorModes {
   rgb = "RGB",
   greyScale = "Greyscale",
+  sepia = "Sepia",
+  inverted = "Inverted",
 }
 export const ControlDefaults = {
   example: "example1.jpg",
-  maxRadius: 8,
-  spacing: 2,
+  maxRadius: 11,
+  spacing: 1.5,
   vOffset: 1,
   colorMode: ColorModes.rgb,
+  paletteSize: 8,
 };
 export const Controls = ({
   setContextControls,
@@ -49,7 +53,7 @@ export const Controls = ({
   return (
     <form className="controls">
       <section>
-        <div>Example Images</div>
+        <label>Example Images</label>
         <fieldset>
           {[1, 2, 3, 4].map((i) => (
             <div key={i}>
@@ -114,22 +118,46 @@ export const Controls = ({
           onChange={handleChange}
         />
       </section>
-      <div>Colour Modes</div>
-      <fieldset>
-        {Object.values(ColorModes).map((mode) => (
-          <div key={mode}>
-            <input
-              type="radio"
-              name="colorMode"
-              id={`colorMode${mode}`}
-              value={mode}
-              onChange={handleChange}
-              checked={values.colorMode === mode}
-            />
-            <label htmlFor={`colorMode${mode}`}>{mode}</label>
-          </div>
-        ))}
-      </fieldset>
+      <section>
+        <label>Colour Modes</label>
+        <fieldset>
+          {Object.values(ColorModes).map((mode) => (
+            <div key={mode}>
+              <input
+                type="radio"
+                name="colorMode"
+                id={`colorMode${mode}`}
+                value={mode}
+                onChange={handleChange}
+                checked={values.colorMode === mode}
+              />
+              <label htmlFor={`colorMode${mode}`}>{mode}</label>
+            </div>
+          ))}
+        </fieldset>
+      </section>
+      <section>
+        <div>
+          <label htmlFor="paletteSize">Palette Size</label>
+          <output>
+            {values.paletteSize === 1
+              ? "B/W"
+              : values.paletteSize > 10
+              ? "∞"
+              : values.paletteSize + 3}
+          </output>
+        </div>
+        <input
+          type="range"
+          id="paletteSize"
+          name="paletteSize"
+          min="1"
+          max="11"
+          step="1"
+          value={values.paletteSize}
+          onChange={handleChange}
+        />
+      </section>
     </form>
   );
 };

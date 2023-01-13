@@ -1,7 +1,13 @@
 import { useContext, useEffect } from "react";
 import { ContextControls, ContextImage } from "./App";
+import { setupCanvases } from "./canvas";
 import "./Output.scss";
-import { renderPixelsToConsole } from "./utils";
+import {
+  getAverageColourFromPixelArray,
+  getPixelBrightness,
+  getPixelsForArea,
+  renderPixelsToConsole,
+} from "./pixels";
 export const Output = () => {
   const contextImage = useContext(ContextImage);
   const contextControls = useContext(ContextControls);
@@ -9,27 +15,10 @@ export const Output = () => {
   useEffect(() => {
     if (!contextControls) return;
     const { example, maxRadius, spacing, vOffset } = contextControls;
-    console.log(":: ~ example", example);
     const image = new Image();
     image.src = contextImage ? URL.createObjectURL(contextImage) : example;
     image.onload = () => {
-      URL.revokeObjectURL(image.src); // only if blob? :shrug:
-      const canvasInput = document.querySelector(
-        ".input canvas"
-      ) as HTMLCanvasElement;
-      const canvasOutput = document.querySelector(
-        ".output canvas"
-      ) as HTMLCanvasElement;
-      const ctxInput = canvasInput?.getContext("2d");
-      const ctxOutput = canvasOutput?.getContext("2d");
-      if (!canvasInput || !ctxInput || !ctxOutput) return;
-      // Render input
-      canvasInput.width = image.width;
-      canvasInput.height = image.height;
-      ctxInput.drawImage(image, 0, 0);
-      // Render output
-      canvasOutput.width = image.width;
-      canvasOutput.height = image.height;
+      const { ctxInput, ctxOutput } = setupCanvases(image);
       for (
         let _x = 0, _xI = 0;
         _x < image.width;
@@ -44,44 +33,22 @@ export const Output = () => {
           let y = _y;
           // vOffset
           if (_xI % 2 === 0) y += vOffset * maxRadius;
-          _xI;
           if (x >= 0 && x < image.width && y >= 0 && y < image.height) {
             // const pixel = ctxInput.getImageData(x, y, 1, 1).data;
             // const [r, g, b, a] = pixel;
             //
-            // Get average pixel colour for square area around point
-            const aX = x - maxRadius;
-            const aY = y - maxRadius;
-            const aWidth = maxRadius * 2;
-            const aHeight = maxRadius * 2;
-            const pixels = ctxInput.getImageData(
-              // Clamp to image bounds (otherwise they're considered #000000)
-              Math.min(Math.max(aX, 0), image.width),
-              Math.min(Math.max(aY, 0), image.height),
-              Math.min(maxRadius * 2, image.width - aX),
-              Math.min(maxRadius * 2, image.height - aY)
-            ).data;
+            const pixels = getPixelsForArea(
+              image,
+              ctxInput,
+              x,
+              y,
+              maxRadius * 2
+            );
             // renderPixelsToConsole(pixels, maxRadius * 2);
-            // Get average colour from pixel image data
-            let totalR = 0;
-            let totalG = 0;
-            let totalB = 0;
-            let totalA = 0;
-            for (let i = 0; i < pixels.length; i += 4) {
-              totalR += pixels[i];
-              totalG += pixels[i + 1];
-              totalB += pixels[i + 2];
-              totalA += pixels[i + 3];
-            }
-            const pixelAverage = {
-              r: Math.floor((totalR / pixels.length) * 4),
-              g: Math.floor((totalG / pixels.length) * 4),
-              b: Math.floor((totalB / pixels.length) * 4),
-              a: Math.floor((totalA / pixels.length) * 4),
-            };
-            const { r, g, b, a } = pixelAverage;
+            const { r, g, b, a } = getAverageColourFromPixelArray(pixels);
             // Get pixel brightness factor
-            const brightness = (r + g + b) / 3 / 255;
+            const brightness = getPixelBrightness(r, g, b, a);
+            // Amplitude modulation of radius by brightness
             const radius = maxRadius - maxRadius * brightness;
             // Draw circle
             ctxOutput.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;

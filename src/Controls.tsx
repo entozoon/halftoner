@@ -12,6 +12,7 @@ export const ControlDefaults = {
   maxRadius: 8,
   spacing: 2,
   vOffset: 1,
+  colourMode: `greyscale`,
 };
 export const Controls = ({
   setContextControls,
@@ -108,6 +109,20 @@ export const Controls = ({
           onChange={handleChange}
         />
       </section>
+      <div>Colour Modes</div>
+      <fieldset>
+        <div>
+          <input
+            type="radio"
+            name="colourMode"
+            id="colourModegreyscale"
+            value="1"
+            onChange={handleChange}
+            checked={values.colourMode === `greyscale`}
+          />
+          <label htmlFor="colourModegreyscale">Greyscale</label>
+        </div>
+      </fieldset>
     </form>
   );
 };

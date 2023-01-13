@@ -25,28 +25,30 @@ fieldset {
   border: 0;
   padding: 0;
   margin: 0;
-  $radio-size: 2em;
+  $minSize: 1em;
   div {
-    display: flex;
     position: relative;
   }
   input {
-    width: auto;
-    padding: 0;
-    margin: 0;
-    width: $radio-size;
-    height: $radio-size;
+    display: none;
+    &:checked + label {
+      background: Goldenrod;
+      color: white;
+      border-style: inset;
+    }
   }
   label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+    display: block;
+    position: relative;
+    min-width: $minSize;
     text-align: center;
-    line-height: $radio-size;
+    line-height: $minSize;
     flex-grow: 1;
-    padding: 0;
-    margin: 0;
-    color: black;
+    padding: 0.3em;
+    margin: 0.1em;
+    background: darkgoldenrod;
+    border: 5px outset burlywood;
+    user-select: none;
+    cursor: pointer;
   }
 }

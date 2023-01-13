@@ -1,11 +1,14 @@
 import { useState } from "react";
 import "./Controls.scss";
+import { parseToGivenType } from "./utils";
 export interface ControlsValues {
+  example: string;
   maxRadius: number;
   spacing: number;
   vOffset: number;
 }
 export const ControlDefaults = {
+  example: "example1.jpg",
   maxRadius: 8,
   spacing: 2,
   vOffset: 1,
@@ -21,18 +24,42 @@ export const Controls = ({
   > | null>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setValues({ ...values, [name]: parseFloat(value) });
+    const _values = {
+      ...values,
+      [name]: parseToGivenType(
+        value,
+        typeof ControlDefaults[name as keyof ControlsValues]
+      ),
+    };
+    setValues(_values);
     // Smallest debounce just to force the stack
     if (debounce) clearTimeout(debounce);
     setDebounce(
       setTimeout(() => {
-        setContextControls(values);
-        console.log("d");
+        setContextControls(_values);
       }, 5)
     );
   };
   return (
     <form className="controls">
+      <section>
+        <div>Example Images</div>
+        <fieldset>
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i}>
+              <input
+                type="radio"
+                name="example"
+                id={`example${i}`}
+                value={`example${i}.jpg`}
+                onChange={handleChange}
+                checked={values.example === `example${i}.jpg`}
+              />
+              <label htmlFor={`example${i}`}>{i}</label>
+            </div>
+          ))}
+        </fieldset>
+      </section>
       <section>
         <div>
           <label htmlFor="maxRadius">Max Radius</label>

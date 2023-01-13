@@ -1,8 +1,8 @@
 # Halftoner
 
-**[Halftoner.netlify.app](https://halftoner.netlify.app)**
+⠝ It halftones images
 
-⠝ It halftones
+**[Halftoner.netlify.app](https://halftoner.netlify.app)**
 
 ## TODO
 

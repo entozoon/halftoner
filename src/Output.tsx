@@ -4,13 +4,13 @@ import "./Output.scss";
 export const Output = () => {
   const contextImage = useContext(ContextImage);
   const contextControls = useContext(ContextControls);
+  // useEffect trigger whenever contextControls or contextImage changes
   useEffect(() => {
     if (!contextControls) return;
-    const { maxRadius, spacing, vOffset } = contextControls;
+    const { example, maxRadius, spacing, vOffset } = contextControls;
+    console.log(":: ~ example", example);
     const image = new Image();
-    image.src = contextImage
-      ? URL.createObjectURL(contextImage)
-      : "example1.jpg";
+    image.src = contextImage ? URL.createObjectURL(contextImage) : example;
     image.onload = () => {
       URL.revokeObjectURL(image.src); // only if blob? :shrug:
       const canvasInput = document.querySelector(

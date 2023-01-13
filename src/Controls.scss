@@ -5,9 +5,9 @@
 }
 section {
   margin: 0 0 0.5em;
-}
-div {
-  display: flex;
+  > div {
+    display: flex;
+  }
 }
 label {
   flex-grow: 1;
@@ -18,4 +18,35 @@ output {
 input {
   font-size: inherit;
   width: 100%;
+}
+// radios
+fieldset {
+  display: flex;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  $radio-size: 2em;
+  div {
+    display: flex;
+    position: relative;
+  }
+  input {
+    width: auto;
+    padding: 0;
+    margin: 0;
+    width: $radio-size;
+    height: $radio-size;
+  }
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    line-height: $radio-size;
+    flex-grow: 1;
+    padding: 0;
+    margin: 0;
+    color: black;
+  }
 }

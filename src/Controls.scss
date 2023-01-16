@@ -66,7 +66,7 @@ fieldset {
   input {
     display: none;
     &:checked + label {
-      background: Goldenrod;
+      background-color: Goldenrod;
       color: white;
       border-style: inset;
     }
@@ -80,9 +80,20 @@ fieldset {
     flex-grow: 1;
     padding: 0.3em;
     margin: 0.1em;
-    background: darkgoldenrod;
+    background-color: darkgoldenrod;
     border: 5px outset burlywood;
     user-select: none;
     cursor: pointer;
+  }
+}
+@for $i from 0 through 5 {
+  [for="example-#{$i}"] {
+    background-image: url("/example#{$i+1}.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 1em;
+    color: transparent !important;
+    border-color: #555;
   }
 }

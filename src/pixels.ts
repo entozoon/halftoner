@@ -80,7 +80,7 @@ export const getPaletteFromPixelArray = (
   palette.push([0, 0, 0]);
   palette.push([255, 255, 255]);
   if (colorThiefPalette) {
-    console.log(":: ~ colorThiefPalette", colorThiefPalette.length);
+    // console.log(":: ~ colorThiefPalette", colorThiefPalette.length);
     palette.push(...colorThiefPalette);
   }
   return palette.map((c) => ({

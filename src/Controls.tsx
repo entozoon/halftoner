@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Controls.scss";
 import { parseToGivenType } from "./utils";
 export interface ControlsValues {
-  example: string;
+  example: number;
   maxRadius: number;
   spacing: number;
   vOffset: number;
@@ -17,8 +17,8 @@ export enum ColorModes {
   sepia = "Sepia",
   inverted = "Inverted",
 }
-export const ControlDefaults = {
-  example: "example1.jpg",
+export let ControlDefaults = {
+  example: 0,
   maxRadius: 15,
   spacing: 1.5,
   vOffset: 1,
@@ -27,24 +27,82 @@ export const ControlDefaults = {
   contrast: 1,
   brightness: 0,
 };
+export const Examples = [
+  {
+    ...ControlDefaults,
+    image: "example1.jpg",
+    maxRadius: 14,
+    spacing: 1.7,
+    vOffset: 1,
+    colorMode: ColorModes.rgb,
+    paletteSize: 3, // 5
+    contrast: 1.9,
+    brightness: -43,
+  },
+  {
+    ...ControlDefaults,
+    image: "example2.jpg",
+    maxRadius: 10,
+    spacing: 1.6,
+    vOffset: 0.3,
+    colorMode: ColorModes.sepia,
+    paletteSize: 3, // 5
+    contrast: 2.6,
+    brightness: -17,
+  },
+  {
+    ...ControlDefaults,
+    image: "example3.jpg",
+    maxRadius: 7,
+    spacing: 1.5,
+    vOffset: 0,
+    colorMode: ColorModes.rgb,
+    paletteSize: 11, // inf
+    contrast: 7.4,
+    brightness: -43,
+  },
+  {
+    ...ControlDefaults,
+    image: "example4.jpg",
+    maxRadius: 19,
+    spacing: 1.3,
+    vOffset: 0.6,
+    colorMode: ColorModes.rgb,
+    paletteSize: 10, // 12
+    contrast: 2.3,
+    brightness: -25,
+  },
+];
+// ControlDefaults.example = Math.floor(Math.random() * Examples.length); // buggy
 export const Controls = ({
   setContextControls,
 }: {
   setContextControls: React.Dispatch<React.SetStateAction<any>>;
 }) => {
-  const [values, setValues] = useState(ControlDefaults);
+  const exampleDefault = Examples[ControlDefaults.example];
+  const [values, setValues] = useState(exampleDefault);
   const [debounce, setDebounce] = useState<ReturnType<
     typeof setTimeout
   > | null>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const _values = {
-      ...values,
-      [name]: parseToGivenType(
-        value,
-        typeof ControlDefaults[name as keyof ControlsValues]
-      ),
-    };
+    let _values;
+    if (name === "example") {
+      _values = Examples[Number(value)];
+      _values = {
+        ...Examples[Number(value)],
+        [name]: value,
+      };
+    } else {
+      _values = {
+        ...values,
+        [name]: parseToGivenType(
+          value,
+          typeof ControlDefaults[name as keyof ControlsValues]
+        ),
+      };
+    }
+    // console.log(":: ~ _values", _values);
     setValues(_values);
     // Smallest debounce just to force the stack
     if (debounce) clearTimeout(debounce);
@@ -59,17 +117,17 @@ export const Controls = ({
       <section className="example-images">
         <label>Examples</label>
         <fieldset>
-          {[1, 2, 3, 4].map((i) => (
+          {Examples.map((e, i) => (
             <div key={i}>
               <input
                 type="radio"
                 name="example"
-                id={`example${i}`}
-                value={`example${i}.jpg`}
+                id={`example-${i}`}
+                value={i}
                 onChange={handleChange}
-                checked={values.example === `example${i}.jpg`}
+                checked={`${values.example}` === `${i}`}
               />
-              <label htmlFor={`example${i}`}>{i}</label>
+              <label htmlFor={`example-${i}`}>{i + 1}</label>
             </div>
           ))}
         </fieldset>
@@ -79,8 +137,8 @@ export const Controls = ({
           <button
             type="button"
             onClick={() => {
-              setValues(ControlDefaults);
-              setContextControls(ControlDefaults);
+              setValues(exampleDefault);
+              setContextControls(exampleDefault);
             }}
           >
             <span>↺</span>
@@ -214,7 +272,7 @@ export const Controls = ({
             name="brightness"
             min="-100"
             max="100"
-            step="10"
+            step="1"
             value={values.brightness}
             onChange={handleChange}
           />

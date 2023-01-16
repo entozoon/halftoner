@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ContextControls, ContextImage } from "./App";
 import { setupCanvases } from "./canvas";
+import { Examples } from "./Controls";
 import "./Output.scss";
 import {
   getAveragePixelFromPixelArray,
@@ -29,7 +30,9 @@ export const Output = () => {
       brightness,
     } = contextControls;
     const image = new Image();
-    image.src = contextImage ? URL.createObjectURL(contextImage) : example;
+    image.src = contextImage
+      ? URL.createObjectURL(contextImage)
+      : Examples[example]?.image;
     image.onload = () => {
       const { ctxInput, ctxOutput } = setupCanvases(image);
       const allPixels = ctxInput.getImageData(

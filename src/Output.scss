@@ -11,7 +11,11 @@ canvas {
 .output {
   background: white;
   img {
+    display: none;
     max-width: 7vw;
+    @media (min-width: 768px) {
+      display: block;
+    }
   }
 }
 .output:hover {

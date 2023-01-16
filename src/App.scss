@@ -10,6 +10,21 @@ body {
 .App {
   display: flex;
   align-items: center;
+  flex-flow: wrap;
+  @media (min-width: 768px) {
+    flex-flow: row;
+  }
+}
+aside {
+  padding: 0 0.5em;
+  margin: 0 0 auto;
+  order: 1;
+  width: 100%;
+  @media (min-width: 768px) {
+    width: 20%;
+    max-width: 20em;
+    order: unset;
+  }
 }
 h1 {
   position: relative;
@@ -31,22 +46,18 @@ h1 {
     background: radial-gradient(rgba(black, 0.75) 0.04em, transparent 0.01em);
     background-repeat: repeat;
     background-size: 0.1em 0.1em;
-
     mix-blend-mode: multiply;
   }
-}
-aside {
-  width: 20%;
-  max-width: 20em;
-  padding: 0 0.5em;
-  margin: 0 0 auto;
 }
 a {
   text-decoration: none;
   color: inherit;
 }
 .canvas-wrapper {
-  max-width: 40%;
+  max-width: 49%;
+  @media (min-width: 768px) {
+    max-width: 40%;
+  }
 }
 .alert {
   margin: 1em 0;

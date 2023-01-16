@@ -17,6 +17,7 @@ const App = () => {
           <aside>
             <ImageDrop {...{ setContextImage }} />
             <Controls {...{ setContextControls }} />
+            &copy; <a href="https://www.michaelcook.tech/">MichaelCook.tech</a>
           </aside>
           <Output />
         </ContextControls.Provider>

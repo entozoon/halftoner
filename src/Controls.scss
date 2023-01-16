@@ -14,6 +14,12 @@ label {
   display: block;
   flex-grow: 1;
   margin-bottom: 0.2em;
+  span {
+    display: inline-block;
+    min-width: 1.5em;
+    text-align: center;
+    opacity: 0.7;
+  }
 }
 output {
   opacity: 0.5;
@@ -21,6 +27,24 @@ output {
 input {
   font-size: inherit;
   width: 100%;
+}
+.input-rgb label {
+  // background-image: linear-gradient(
+  //   to right,
+  //   rgb(141, 81, 81),
+  //   rgb(67, 131, 67),
+  //   rgb(57, 57, 121)
+  // ) !important;
+  border-color: red yellow green blue !important;
+}
+.input-greyscale {
+  filter: grayscale(100%);
+}
+.input-inverted {
+  filter: invert(100%);
+}
+.input-sepia {
+  filter: sepia(100%);
 }
 // radios
 fieldset {

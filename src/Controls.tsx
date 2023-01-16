@@ -76,7 +76,9 @@ export const Controls = ({
       </section>
       <section>
         <div>
-          <label htmlFor="maxRadius">Max Radius</label>
+          <label htmlFor="maxRadius">
+            <span>◯</span> Max Radius
+          </label>
           <output>{values.maxRadius}</output>
         </div>
         <input
@@ -92,7 +94,9 @@ export const Controls = ({
       </section>
       <section>
         <div>
-          <label htmlFor="spacing">Spacing</label>
+          <label htmlFor="spacing">
+            <span>↔</span> Spacing
+          </label>
           <output>{values.spacing}</output>
         </div>
         <input
@@ -108,7 +112,9 @@ export const Controls = ({
       </section>
       <section>
         <div>
-          <label htmlFor="vOffset">Vertical Offset</label>
+          <label htmlFor="vOffset">
+            <span>↕</span> Vertical Offset
+          </label>
           <output>{values.vOffset}</output>
         </div>
         <input
@@ -123,10 +129,10 @@ export const Controls = ({
         />
       </section>
       <section>
-        <label>Colour Modes</label>
+        <label>Color Modes</label>
         <fieldset>
           {Object.values(ColorModes).map((mode) => (
-            <div key={mode}>
+            <div key={mode} className={`input-${mode.toLowerCase()}`}>
               <input
                 type="radio"
                 name="colorMode"
@@ -142,7 +148,9 @@ export const Controls = ({
       </section>
       <section>
         <div>
-          <label htmlFor="paletteSize">Palette Size</label>
+          <label htmlFor="paletteSize">
+            <span>🎨</span> Palette Size
+          </label>
           <output>
             {values.paletteSize === 1
               ? "B/W"
@@ -164,7 +172,9 @@ export const Controls = ({
       </section>
       <section>
         <div>
-          <label htmlFor="contrast">Contrast</label>
+          <label htmlFor="contrast">
+            <span>◑</span> Contrast
+          </label>
           <output>{values.contrast}</output>
         </div>
         <input
@@ -180,7 +190,9 @@ export const Controls = ({
       </section>
       <section>
         <div>
-          <label htmlFor="brightness">Brightness</label>
+          <label htmlFor="brightness">
+            <span>🔆</span> Brightness
+          </label>
           <output>{values.brightness}</output>
         </div>
         <input

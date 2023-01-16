@@ -8,6 +8,8 @@ export interface ControlsValues {
   vOffset: number;
   colorMode: string;
   paletteSize: number;
+  contrast: number;
+  brightness: number;
 }
 export enum ColorModes {
   rgb = "RGB",
@@ -22,6 +24,8 @@ export const ControlDefaults = {
   vOffset: 1,
   colorMode: ColorModes.rgb,
   paletteSize: 8,
+  contrast: 1,
+  brightness: 0,
 };
 export const Controls = ({
   setContextControls,
@@ -155,6 +159,38 @@ export const Controls = ({
           max="11"
           step="1"
           value={values.paletteSize}
+          onChange={handleChange}
+        />
+      </section>
+      <section>
+        <div>
+          <label htmlFor="contrast">Contrast</label>
+          <output>{values.contrast}</output>
+        </div>
+        <input
+          type="range"
+          id="contrast"
+          name="contrast"
+          min="0"
+          max="10"
+          step=".1"
+          value={values.contrast}
+          onChange={handleChange}
+        />
+      </section>
+      <section>
+        <div>
+          <label htmlFor="brightness">Brightness</label>
+          <output>{values.brightness}</output>
+        </div>
+        <input
+          type="range"
+          id="brightness"
+          name="brightness"
+          min="-100"
+          max="100"
+          step="10"
+          value={values.brightness}
           onChange={handleChange}
         />
       </section>

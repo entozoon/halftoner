@@ -8,6 +8,8 @@ import {
   getPixelsForArea,
   getPaletteFromPixelArray,
   modifyPixelByColorMode,
+  pixelContrast,
+  pixelBrightness,
 } from "./pixels";
 export const Output = () => {
   const contextImage = useContext(ContextImage);
@@ -16,8 +18,16 @@ export const Output = () => {
   // useEffect trigger whenever contextControls or contextImage changes
   useEffect(() => {
     if (!contextControls) return;
-    const { example, maxRadius, spacing, vOffset, colorMode, paletteSize } =
-      contextControls;
+    const {
+      example,
+      maxRadius,
+      spacing,
+      vOffset,
+      colorMode,
+      paletteSize,
+      contrast,
+      brightness,
+    } = contextControls;
     const image = new Image();
     image.src = contextImage ? URL.createObjectURL(contextImage) : example;
     image.onload = () => {
@@ -60,16 +70,15 @@ export const Output = () => {
             // renderPixelsToConsole(pixels, maxRadius * 2);
             const pixelAverage = getAveragePixelFromPixelArray(pixels);
             // Color modes
-            const pixel = modifyPixelByColorMode(
-              pixelAverage,
-              colorMode,
-              palette
-            );
+            let pixel = pixelAverage;
+            pixel = pixelContrast(pixel, contrast);
+            pixel = pixelBrightness(pixel, brightness);
+            pixel = modifyPixelByColorMode(pixel, colorMode, palette);
             const { r, g, b, a } = pixel;
             // Get pixel brightness factor
-            const brightness = getPixelBrightness(r, g, b, a);
+            const _brightness = getPixelBrightness(r, g, b, a);
             // Amplitude modulation of radius by brightness
-            const radius = maxRadius - maxRadius * brightness;
+            const radius = maxRadius - maxRadius * _brightness;
             // Draw circle
             ctxOutput.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
             ctxOutput.beginPath();

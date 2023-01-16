@@ -136,3 +136,19 @@ export const modifyPixelByColorMode = (
   }
   return pixel;
 };
+export const pixelContrast = (pixel: Pixel, contrast: number) => {
+  return {
+    r: Math.min(255, Math.max(0, contrast * (pixel.r - 128) + 128)),
+    g: Math.min(255, Math.max(0, contrast * (pixel.g - 128) + 128)),
+    b: Math.min(255, Math.max(0, contrast * (pixel.b - 128) + 128)),
+    a: pixel.a,
+  };
+};
+export const pixelBrightness = (pixel: Pixel, brightness: number) => {
+  return {
+    r: Math.min(255, Math.max(0, pixel.r + brightness)),
+    g: Math.min(255, Math.max(0, pixel.g + brightness)),
+    b: Math.min(255, Math.max(0, pixel.b + brightness)),
+    a: pixel.a,
+  };
+};

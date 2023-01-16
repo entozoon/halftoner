@@ -15,9 +15,13 @@ const App = () => {
       <ContextImage.Provider value={contextImage}>
         <ContextControls.Provider value={contextControls}>
           <aside>
+            <h1>Halftoner</h1>
             <ImageDrop {...{ setContextImage }} />
             <Controls {...{ setContextControls }} />
-            &copy; <a href="https://www.michaelcook.tech/">MichaelCook.tech</a>
+            <footer>
+              &copy;{" "}
+              <a href="https://www.michaelcook.tech/">MichaelCook.tech</a>
+            </footer>
           </aside>
           <Output />
         </ContextControls.Provider>

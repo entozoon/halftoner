@@ -1,5 +1,4 @@
 .controls {
-  color: white;
   border: 5px inset burlywood;
   padding: 0.5em;
   margin: 0 0 1em;
@@ -27,6 +26,13 @@ output {
 input {
   font-size: inherit;
   width: 100%;
+}
+.example-images {
+  color: white;
+  text-align: center;
+  fieldset {
+    justify-content: center;
+  }
 }
 .input-rgb label {
   // background-image: linear-gradient(

@@ -32,7 +32,7 @@ export const ImageDrop = ({
   return (
     <div {...getRootProps()} className="image-drop">
       <input {...getInputProps()} />
-      {isDragActive ? <>Drop it like it's hot</> : <>Drop an image here</>}
+      {isDragActive ? <>Drop it like it's hot</> : <> 🖼 Drop an image</>}
       {error && <div className="alert">{error}</div>}
     </div>
   );

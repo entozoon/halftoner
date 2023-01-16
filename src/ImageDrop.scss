@@ -1,9 +1,10 @@
 .image-drop {
   padding: 1em;
   margin: 0 0 0.5em;
-  border: 5px outset blue;
-  background-color: #201372;
+  border: 5px outset grey;
+  background-color: #565172;
   color: #c8c8f1;
+  text-align: center;
   cursor: pointer;
   &:hover {
     border-style: inset;

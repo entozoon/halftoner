@@ -1,19 +1,48 @@
+@import url("https://fonts.googleapis.com/css?family=Play:400,700");
 body {
+  margin: 0;
+  padding: 0;
   background: black;
-  color: dodgerblue;
-  font-family: tahoma, verdana;
-  font-size: clamp(0.75rem, 2vw, 1.2rem);
+  color: #ddd;
+  font-family: Play, sans-serif;
+  font-size: clamp(0.75rem, 2vw, 1rem);
 }
 .App {
   display: flex;
   align-items: center;
 }
+h1 {
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  text-align: center;
+  margin: 1em 0;
+  padding: 0;
+  line-height: 1;
+  color: white;
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    background: radial-gradient(rgba(black, 0.75) 0.04em, transparent 0.01em);
+    background-repeat: repeat;
+    background-size: 0.1em 0.1em;
+
+    mix-blend-mode: multiply;
+  }
+}
 aside {
   width: 20%;
-  padding: 0.5em;
+  max-width: 20em;
+  padding: 0 0.5em;
+  margin: 0 0 auto;
 }
 a {
-  // text-decoration: none;
+  text-decoration: none;
   color: inherit;
 }
 .canvas-wrapper {
@@ -24,4 +53,9 @@ a {
   padding: 1em;
   background: #330000;
   color: white;
+}
+footer {
+  margin: 1em;
+  a {
+  }
 }

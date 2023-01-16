@@ -17,7 +17,7 @@ export enum ColorModes {
 }
 export const ControlDefaults = {
   example: "example1.jpg",
-  maxRadius: 11,
+  maxRadius: 15,
   spacing: 1.5,
   vOffset: 1,
   colorMode: ColorModes.rgb,

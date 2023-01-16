@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ContextControls, ContextImage } from "./App";
 import { setupCanvases } from "./canvas";
 import "./Output.scss";
@@ -12,6 +12,7 @@ import {
 export const Output = () => {
   const contextImage = useContext(ContextImage);
   const contextControls = useContext(ContextControls);
+  const [outputImage, setOutputImage] = useState("");
   // useEffect trigger whenever contextControls or contextImage changes
   useEffect(() => {
     if (!contextControls) return;
@@ -77,6 +78,7 @@ export const Output = () => {
           }
         }
       }
+      setOutputImage(ctxOutput.canvas.toDataURL());
     };
   }, [contextImage, contextControls]);
   return (
@@ -86,6 +88,9 @@ export const Output = () => {
       </div>
       <div className="canvas-wrapper output">
         <canvas>{contextImage?.name}</canvas>
+      </div>
+      <div className="output">
+        <img src={outputImage} />
       </div>
     </>
   );

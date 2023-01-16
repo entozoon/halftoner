@@ -10,6 +10,9 @@ canvas {
 }
 .output {
   background: white;
+  img {
+    max-width: 7vw;
+  }
 }
 .output:hover {
   transition: all 0.3s ease;

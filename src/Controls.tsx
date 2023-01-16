@@ -57,7 +57,7 @@ export const Controls = ({
   return (
     <>
       <section className="example-images">
-        <label>Example Images</label>
+        <label>Examples</label>
         <fieldset>
           {[1, 2, 3, 4].map((i) => (
             <div key={i}>
@@ -75,6 +75,18 @@ export const Controls = ({
         </fieldset>
       </section>
       <form className="controls">
+        <section>
+          <button
+            type="button"
+            onClick={() => {
+              setValues(ControlDefaults);
+              setContextControls(ControlDefaults);
+            }}
+          >
+            <span>↺</span>
+            Reset
+          </button>
+        </section>
         <section>
           <div>
             <label htmlFor="maxRadius">

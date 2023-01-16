@@ -59,3 +59,25 @@ footer {
   a {
   }
 }
+@mixin button {
+  border: 0;
+  background: #333;
+  color: white;
+  padding: 0.5em 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75em;
+  cursor: pointer;
+  border: 5px outset #444;
+  &:hover {
+    border-style: inset;
+    color: #ddd;
+  }
+  span {
+    font-size: 1.5em;
+    margin-right: 0.25em;
+  }
+}
+button {
+  @include button;
+}

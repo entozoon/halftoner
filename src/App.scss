@@ -55,6 +55,7 @@ a {
 }
 .canvas-wrapper {
   max-width: 49%;
+  line-height: 0;
   @media (min-width: 768px) {
     max-width: 40%;
   }

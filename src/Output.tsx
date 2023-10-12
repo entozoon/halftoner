@@ -12,6 +12,7 @@ import {
   pixelContrast,
   pixelBrightness,
 } from "./pixels";
+import { Helmet } from "react-helmet";
 export const Output = () => {
   const contextImage = useContext(ContextImage);
   const contextControls = useContext(ContextControls);
@@ -35,6 +36,7 @@ export const Output = () => {
       : Examples[example]?.image;
     image.onload = () => {
       const { ctxInput, ctxOutput } = setupCanvases(image);
+      ctxOutput.imageSmoothingEnabled = false;
       const allPixels = ctxInput.getImageData(
         0,
         0,
@@ -99,6 +101,11 @@ export const Output = () => {
   }, [contextImage, contextControls]);
   return (
     <>
+      {/* // add data-colormode to body with Helmet */}
+      <Helmet
+        bodyAttributes={{ "data-colorMode": contextControls?.colorMode }}
+      />
+
       <div className="canvas-wrapper input">
         <canvas>{contextImage?.name}</canvas>
       </div>

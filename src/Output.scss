@@ -5,6 +5,9 @@
 canvas {
   max-height: 100vh;
   max-width: 100%;
+  [data-colorMode="Monochromish"] & {
+    image-rendering: pixelated;
+  }
 }
 .input {
 }

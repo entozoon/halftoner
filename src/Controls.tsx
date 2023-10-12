@@ -14,6 +14,7 @@ export interface ControlsValues {
 export enum ColorModes {
   rgb = "RGB",
   greyScale = "Greyscale",
+  monochrome = "Monochrome",
   sepia = "Sepia",
   inverted = "Inverted",
 }
@@ -220,7 +221,7 @@ export const Controls = ({
         <section>
           <div>
             <label htmlFor="paletteSize">
-              <span>🎨</span> Palette Size
+              <span>🎨</span> Colour Palette Size
             </label>
             <output>
               {values.paletteSize === 1

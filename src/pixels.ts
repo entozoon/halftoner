@@ -118,6 +118,16 @@ export const modifyPixelByColorMode = (
       a: brightness * 255,
     };
   }
+  if (mode === ColorModes.monochrome) {
+    // This has a hack in Output.tsx too, so we can vary the size of the dots but still be all solid black
+    const brightness = getPixelBrightness(pixel.r, pixel.g, pixel.b, pixel.a);
+    return {
+      r: 0,
+      g: 0,
+      b: 0,
+      a: brightness * 255,
+    };
+  }
   if (mode === ColorModes.inverted) {
     return {
       r: 255 - pixel.r,

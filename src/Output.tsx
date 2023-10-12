@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ContextControls, ContextImage } from "./App";
 import { setupCanvases } from "./canvas";
-import { Examples } from "./Controls";
+import { ColorModes, Examples } from "./Controls";
 import "./Output.scss";
 import {
   getAveragePixelFromPixelArray,
@@ -81,7 +81,11 @@ export const Output = () => {
             // Get pixel brightness factor
             const _brightness = getPixelBrightness(r, g, b, a);
             // Amplitude modulation of radius by brightness
-            const radius = maxRadius - maxRadius * _brightness;
+            let radius = maxRadius - maxRadius * _brightness;
+            if (colorMode === ColorModes.monochrome) {
+              radius = maxRadius - maxRadius * (a / 255);
+              console.log(":: ~ a:", a);
+            }
             // Draw circle
             ctxOutput.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
             ctxOutput.beginPath();

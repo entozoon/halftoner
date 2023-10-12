@@ -82,7 +82,7 @@ export const Output = () => {
             const _brightness = getPixelBrightness(r, g, b, a);
             // Amplitude modulation of radius by brightness
             let radius = maxRadius - maxRadius * _brightness;
-            if (colorMode === ColorModes.monochrome) {
+            if (colorMode === ColorModes.monochromish) {
               radius = maxRadius - maxRadius * (a / 255);
               console.log(":: ~ a:", a);
             }

@@ -14,7 +14,7 @@ export interface ControlsValues {
 export enum ColorModes {
   rgb = "RGB",
   greyScale = "Greyscale",
-  monochrome = "Monochrome",
+  monochromish = "Monochromish",
   sepia = "Sepia",
   inverted = "Inverted",
 }

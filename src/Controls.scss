@@ -46,8 +46,11 @@ input {
 .input-greyscale {
   filter: grayscale(100%);
 }
-.input-monochrome {
+.input-monochromish {
   filter: grayscale(100%) contrast(200%);
+  input {
+    background: black;
+  }
 }
 .input-inverted {
   filter: invert(100%);

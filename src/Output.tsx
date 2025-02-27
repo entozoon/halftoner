@@ -18,7 +18,7 @@ const createAsciiFromPixels = (pixels, rotate = false) => {
     .map(({ pixel, x, y }) => {
       const { r, g, b, a } = pixel;
       const brightness = getPixelBrightness(r, g, b, a);
-      const ascii = brightness > 0.8 ? " " : brightness > 0.4 ? "░" : "█";
+      const ascii = brightness > 0.8 ? " " : brightness > 0.4 ? "." : "@"; // Probably not #, according to test print
       const newLine = rotate ? y === 0 : x === 0;
       return newLine ? `\n${ascii}` : ascii;
     })

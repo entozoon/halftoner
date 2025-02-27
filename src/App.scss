@@ -98,3 +98,23 @@ footer {
 button {
   @include button;
 }
+.loading {
+  margin: 1em 0;
+  font-size: 2em;
+  color: white;
+  background: black;
+  // animate max-width from 0 to 100%
+  animation: loading 2s infinite;
+  overflow: hidden;
+  @keyframes loading {
+    0% {
+      max-width: 0;
+    }
+    100% {
+      max-width: 8em;
+    }
+  }
+}
+[hidden] {
+  display: none !important;
+}

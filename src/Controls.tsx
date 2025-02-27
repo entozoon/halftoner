@@ -17,6 +17,7 @@ export enum ColorModes {
   monochromish = "Monochromish",
   sepia = "Sepia",
   inverted = "Inverted",
+  ascii = "ASCII",
 }
 export let ControlDefaults = {
   example: 0,
@@ -79,7 +80,7 @@ export const Examples = [
     maxRadius: 1,
     spacing: 1,
     vOffset: 0,
-    colorMode: ColorModes.rgb,
+    colorMode: ColorModes.ascii,
     paletteSize: 12, // 12
     contrast: 1,
     brightness: 0,

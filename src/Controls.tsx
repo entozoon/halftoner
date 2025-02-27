@@ -84,8 +84,8 @@ export const Examples = [
     ...ControlDefaults,
     image: "example5.png",
     maxRadius: 1,
-    spacingX: 2,
-    spacingY: 2,
+    spacingX: 1,
+    spacingY: 1,
     vOffset: 0,
     colorMode: ColorModes.perfectAscii,
     paletteSize: 12, // 12

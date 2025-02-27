@@ -228,7 +228,7 @@ export const Controls = ({
         <section>
           <div>
             <label htmlFor="vOffset">
-              <span>↕</span> Vertical Offset
+              <span>↝</span> Vertical Offset
             </label>
             <output>{values.vOffset}</output>
           </div>

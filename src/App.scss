@@ -99,19 +99,25 @@ button {
   @include button;
 }
 .loading {
-  margin: 1em 0;
-  font-size: 2em;
-  color: white;
-  background: black;
-  // animate max-width from 0 to 100%
-  animation: loading 2s infinite;
-  overflow: hidden;
-  @keyframes loading {
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-size: 5em;
+  animation: fadeInAndOut 0.5s infinite alternate;
+  @keyframes fadeInAndOut {
     0% {
-      max-width: 0;
+      color: black;
+      text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white;
     }
     100% {
-      max-width: 8em;
+      color: white;
+      text-shadow: 0 0 2px black, 0 0 2px black, 0 0 2px black;
     }
   }
 }

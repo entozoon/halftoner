@@ -20,6 +20,11 @@ canvas {
       display: block;
     }
   }
+  &.-ascii {
+    line-height: 1;
+    background: rgb(196, 215, 220);
+    color: Black;
+  }
 }
 .output:hover {
   transition: all 0.3s ease;

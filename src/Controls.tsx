@@ -4,7 +4,8 @@ import { parseToGivenType } from "./utils";
 export interface ControlsValues {
   example: number;
   maxRadius: number;
-  spacing: number;
+  spacingX: number;
+  spacingY: number;
   vOffset: number;
   colorMode: string;
   paletteSize: number;
@@ -17,12 +18,13 @@ export enum ColorModes {
   monochromish = "Monochromish",
   sepia = "Sepia",
   inverted = "Inverted",
-  ascii = "ASCII",
+  perfectAscii = "Perfect ASCII",
 }
 export let ControlDefaults = {
   example: 0,
   maxRadius: 15,
-  spacing: 1.5,
+  spacingX: 1.5,
+  spacingY: 1.5,
   vOffset: 1,
   colorMode: ColorModes.rgb,
   paletteSize: 8,
@@ -34,7 +36,8 @@ export const Examples = [
     ...ControlDefaults,
     image: "example1.jpg",
     maxRadius: 14,
-    spacing: 1.7,
+    spacingX: 1.7,
+    spacingY: 1.7,
     vOffset: 1,
     colorMode: ColorModes.rgb,
     paletteSize: 3, // 5
@@ -45,7 +48,8 @@ export const Examples = [
     ...ControlDefaults,
     image: "example2.jpg",
     maxRadius: 10,
-    spacing: 1.6,
+    spacingX: 1.6,
+    spacingY: 1.6,
     vOffset: 0.3,
     colorMode: ColorModes.sepia,
     paletteSize: 3, // 5
@@ -56,7 +60,8 @@ export const Examples = [
     ...ControlDefaults,
     image: "example3.jpg",
     maxRadius: 7,
-    spacing: 1.5,
+    spacingX: 1.5,
+    spacingY: 1.5,
     vOffset: 0,
     colorMode: ColorModes.rgb,
     paletteSize: 11, // inf
@@ -67,7 +72,8 @@ export const Examples = [
     ...ControlDefaults,
     image: "example4.jpg",
     maxRadius: 19,
-    spacing: 1.3,
+    spacingX: 1.3,
+    spacingY: 1.3,
     vOffset: 0.6,
     colorMode: ColorModes.rgb,
     paletteSize: 10, // 12
@@ -78,9 +84,10 @@ export const Examples = [
     ...ControlDefaults,
     image: "example5.png",
     maxRadius: 1,
-    spacing: 1,
+    spacingX: 1,
+    spacingY: 1,
     vOffset: 0,
-    colorMode: ColorModes.ascii,
+    colorMode: ColorModes.perfectAscii,
     paletteSize: 12, // 12
     contrast: 1,
     brightness: 0,
@@ -89,8 +96,12 @@ export const Examples = [
 // ControlDefaults.example = Math.floor(Math.random() * Examples.length); // buggy
 export const Controls = ({
   setContextControls,
+  loading,
+  setLoading,
 }: {
   setContextControls: React.Dispatch<React.SetStateAction<any>>;
+  loading: boolean;
+  setLoading: any;
 }) => {
   const exampleDefault = Examples[ControlDefaults.example];
   const [values, setValues] = useState(exampleDefault);
@@ -98,6 +109,7 @@ export const Controls = ({
     typeof setTimeout
   > | null>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true);
     const { name, value } = e.target;
     let _values;
     if (name === "example") {
@@ -127,6 +139,7 @@ export const Controls = ({
   };
   return (
     <>
+      {loading && <div className="loading">Processing...</div>}
       <section className="example-images">
         <label>Examples</label>
         <fieldset>
@@ -179,18 +192,36 @@ export const Controls = ({
         <section>
           <div>
             <label htmlFor="spacing">
-              <span>↔</span> Spacing
+              <span>↔</span> Spacing X
             </label>
-            <output>{values.spacing}</output>
+            <output>{values.spacingX}</output>
           </div>
           <input
             type="range"
-            id="spacing"
-            name="spacing"
+            id="spacingX"
+            name="spacingX"
             min="1"
             max="3"
             step="0.1"
-            value={values.spacing}
+            value={values.spacingX}
+            onChange={handleChange}
+          />
+        </section>
+        <section>
+          <div>
+            <label htmlFor="spacing">
+              <span>↕</span> Spacing Y
+            </label>
+            <output>{values.spacingY}</output>
+          </div>
+          <input
+            type="range"
+            id="spacingY"
+            name="spacingY"
+            min="1"
+            max="3"
+            step="0.1"
+            value={values.spacingY}
             onChange={handleChange}
           />
         </section>

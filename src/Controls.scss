@@ -95,6 +95,10 @@ fieldset {
 @for $i from 0 through 5 {
   [for="example-#{$i}"] {
     background-image: url("/example#{$i+1}.jpg");
+    @if $i == 4 {
+      // lazy
+      background-image: url("/example#{$i+1}.png");
+    }
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

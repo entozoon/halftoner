@@ -10,6 +10,7 @@ const App = () => {
   const [contextControls, setContextControls] = useState<null | ControlsValues>(
     ControlDefaults
   );
+  const [loading, setLoading] = useState(true);
   return (
     <main className="App">
       <ContextImage.Provider value={contextImage}>
@@ -17,13 +18,13 @@ const App = () => {
           <aside>
             <h1>Halftoner</h1>
             <ImageDrop {...{ setContextImage }} />
-            <Controls {...{ setContextControls }} />
+            <Controls {...{ setContextControls, loading, setLoading }} />
             <footer>
               &copy;{" "}
               <a href="https://www.michaelcook.tech/">MichaelCook.tech</a>
             </footer>
           </aside>
-          <Output />
+          <Output {...{ setLoading }} />
         </ContextControls.Provider>
       </ContextImage.Provider>
     </main>

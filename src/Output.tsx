@@ -25,29 +25,31 @@ const createAsciiFromPixels = (pixels, rotate = false) => {
     .join("");
   return ascii;
 };
-export const Output = () => {
+export const Output = ({ setLoading }) => {
   const contextImage = useContext(ContextImage);
   const contextControls = useContext(ContextControls);
   const [outputImage, setOutputImage] = useState("");
-  const [pixelsOutput1, setPixelsOutput1] = useState([]);
-  const [pixelsOutput2, setPixelsOutput2] = useState([]);
-  const [asciiOutput1, setAsciiOutput1] = useState("");
-  const [asciiOutput2, setAsciiOutput2] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [outputPixels1, setOutputPixels1] = useState([]);
+  const [outputPixels2, setOutputPixels2] = useState([]);
+  const [outputPixels3, setOutputPixels3] = useState([]);
+  const [outputAscii1, setOutputAscii1] = useState("");
+  const [outputAscii2, setOutputAscii2] = useState("");
+  const [outputAscii3, setOutputAscii3] = useState("");
   // useEffect trigger whenever contextControls or contextImage changes
   useEffect(() => {
     if (!contextControls) return;
+    setLoading(true);
     const {
       example,
       maxRadius,
-      spacing,
+      spacingX,
+      spacingY,
       vOffset,
       colorMode,
       paletteSize,
       contrast,
       brightness,
     } = contextControls;
-    setLoading(true);
     const image = new Image();
     image.src = contextImage
       ? URL.createObjectURL(contextImage)
@@ -61,12 +63,14 @@ export const Output = () => {
         image.width,
         image.height
       ).data;
-      const _pixelsOutput1 = [];
+      const _outputPixels1 = [];
       const palette =
         paletteSize <= 10
           ? getPaletteFromPixelArray(allPixels, paletteSize)
           : undefined;
-      if (colorMode === ColorModes.ascii) {
+      // Crap, can't do this without abstracting ascii from the main run
+      // const spacingX = colorMode === ColorModes.perfectAscii ? spacing * 0.5 : spacing;
+      if (colorMode === ColorModes.perfectAscii) {
         //
         //
         // Pure blaps for ASCII
@@ -82,7 +86,7 @@ export const Output = () => {
               pixel = pixelContrast(pixel, contrast);
               pixel = pixelBrightness(pixel, brightness);
               pixel = modifyPixelByColorMode(pixel, colorMode, palette);
-              _pixelsOutput1.push({
+              _outputPixels1.push({
                 x,
                 y,
                 pixel,
@@ -92,8 +96,8 @@ export const Output = () => {
         }
         //
         // Pure rotated blap for printing
-        setPixelsOutput1(_pixelsOutput1);
-        const _pixelsOutput2 = [];
+        setOutputPixels1(_outputPixels1);
+        const _outputPixels2 = [];
         for (let _x = 0, _xI = 0; _x < image.width; _x++) {
           for (let _y = image.height - 1, _yI = 0; _y >= 0; _y--) {
             let x = _x;
@@ -101,7 +105,7 @@ export const Output = () => {
             if (x >= 0 && x < image.width && y >= 0 && y < image.height) {
               let pixels = getPixelsForArea(image, ctxInput, x, y, 1);
               let pixel = getAveragePixelFromPixelArray(pixels);
-              _pixelsOutput2.push({
+              _outputPixels2.push({
                 x,
                 y,
                 pixel,
@@ -109,19 +113,20 @@ export const Output = () => {
             }
           }
         }
-        setPixelsOutput2(_pixelsOutput2);
+        setOutputPixels2(_outputPixels2);
       }
       //
       //
+      const _outputPixels3 = [];
       for (
         let _y = 0, _yI = 0;
         _y < image.height;
-        _y += spacing * maxRadius, _yI++
+        _y += spacingY * maxRadius, _yI++
       ) {
         for (
           let _x = 0, _xI = 0;
           _x < image.width;
-          _x += spacing * maxRadius, _xI++
+          _x += spacingX * maxRadius, _xI++
         ) {
           let x = _x;
           let y = _y;
@@ -140,11 +145,14 @@ export const Output = () => {
             pixel = pixelContrast(pixel, contrast);
             pixel = pixelBrightness(pixel, brightness);
             pixel = modifyPixelByColorMode(pixel, colorMode, palette);
-            // _pixelsOutput1.push({
-            //   x,
-            //   y,
-            //   pixel,
-            // });
+            _outputPixels3.push({
+              x,
+              y,
+              // x: Math.floor(_xI),
+              // y: Math.floor(_yI),
+              pixel,
+            });
+            // ABSTRACT THIS OUT INTO ITS OWN FOR LOOP OF  _outputPixels3
             const { r, g, b, a } = pixel;
             const _brightness = getPixelBrightness(r, g, b, a);
             let radius = maxRadius - maxRadius * _brightness;
@@ -158,17 +166,20 @@ export const Output = () => {
           }
         }
       }
-      setPixelsOutput1(_pixelsOutput1);
+      setOutputPixels3(_outputPixels3);
       setOutputImage(ctxOutput.canvas.toDataURL());
       setLoading(false);
     };
   }, [contextImage, contextControls]);
   useEffect(() => {
-    setAsciiOutput1(createAsciiFromPixels(pixelsOutput1));
-  }, [pixelsOutput1]);
+    setOutputAscii1(createAsciiFromPixels(outputPixels1));
+  }, [outputPixels1]);
   useEffect(() => {
-    setAsciiOutput2(createAsciiFromPixels(pixelsOutput2, true));
-  }, [pixelsOutput2]);
+    setOutputAscii2(createAsciiFromPixels(outputPixels2, true));
+  }, [outputPixels2]);
+  useEffect(() => {
+    setOutputAscii3(createAsciiFromPixels(outputPixels3));
+  }, [outputPixels3]);
   const { colorMode } = contextControls;
   return (
     <>
@@ -183,22 +194,35 @@ export const Output = () => {
           </div>
           <div
             className="canvas-wrapper output"
-            hidden={colorMode === ColorModes.ascii}
+            hidden={colorMode === ColorModes.perfectAscii}
           >
             <canvas>{contextImage?.name}</canvas>
           </div>
-          <div className="output" hidden={colorMode === ColorModes.ascii}>
+          <div
+            className="canvas-wrapper output -ascii"
+            hidden={colorMode === ColorModes.perfectAscii}
+          >
+            <pre
+              contentEditable
+              dangerouslySetInnerHTML={{ __html: outputAscii3 }}
+            />
+          </div>
+          <div
+            className="output"
+            hidden={colorMode === ColorModes.perfectAscii}
+          >
             <img src={outputImage} />
           </div>
         </div>
-        {loading && <div className="loading">Processing...</div>}
         <pre
           contentEditable
-          dangerouslySetInnerHTML={{ __html: asciiOutput1 }}
+          dangerouslySetInnerHTML={{ __html: outputAscii1 }}
+          hidden={colorMode !== ColorModes.perfectAscii}
         />
         <pre
           contentEditable
-          dangerouslySetInnerHTML={{ __html: asciiOutput2 }}
+          dangerouslySetInnerHTML={{ __html: outputAscii2 }}
+          hidden={colorMode !== ColorModes.perfectAscii}
         />
       </div>
     </>

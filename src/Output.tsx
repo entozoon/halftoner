@@ -75,8 +75,16 @@ export const Output = ({ setLoading }) => {
         //
         // Pure blaps for ASCII
         // By which I mean process every pixel
-        for (let _y = 0, _yI = 0; _y < image.height; _y++) {
-          for (let _x = 0, _xI = 0; _x < image.width; _x++) {
+        for (
+          let _y = 0, _yI = 0;
+          _y < image.height;
+          _y += Math.floor(spacingY), _yI++
+        ) {
+          for (
+            let _x = 0, _xI = 0;
+            _x < image.width;
+            _x += Math.floor(spacingX), _xI++
+          ) {
             let x = _x;
             let y = _y;
             if (x >= 0 && x < image.width && y >= 0 && y < image.height) {
@@ -98,8 +106,12 @@ export const Output = ({ setLoading }) => {
         // Pure rotated blap for printing
         setOutputPixels1(_outputPixels1);
         const _outputPixels2 = [];
-        for (let _x = 0, _xI = 0; _x < image.width; _x++) {
-          for (let _y = image.height - 1, _yI = 0; _y >= 0; _y--) {
+        for (let _x = 0, _xI = 0; _x < image.width; _x += spacingX, _xI++) {
+          for (
+            let _y = image.height - 1, _yI = 0;
+            _y >= 0;
+            _y -= spacingY, _yI++
+          ) {
             let x = _x;
             let y = _y;
             if (x >= 0 && x < image.width && y >= 0 && y < image.height) {

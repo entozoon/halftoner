@@ -84,8 +84,8 @@ export const Examples = [
     ...ControlDefaults,
     image: "example5.png",
     maxRadius: 1,
-    spacingX: 1,
-    spacingY: 1,
+    spacingX: 2,
+    spacingY: 2,
     vOffset: 0,
     colorMode: ColorModes.perfectAscii,
     paletteSize: 12, // 12
@@ -202,7 +202,7 @@ export const Controls = ({
             name="spacingX"
             min="1"
             max="3"
-            step="0.1"
+            step={values.colorMode === ColorModes.perfectAscii ? "1" : "0.1"}
             value={values.spacingX}
             onChange={handleChange}
           />
@@ -220,7 +220,7 @@ export const Controls = ({
             name="spacingY"
             min="1"
             max="3"
-            step="0.1"
+            step={values.colorMode === ColorModes.perfectAscii ? "1" : "0.1"}
             value={values.spacingY}
             onChange={handleChange}
           />

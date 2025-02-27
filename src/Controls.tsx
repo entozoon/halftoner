@@ -73,6 +73,17 @@ export const Examples = [
     contrast: 2.3,
     brightness: -25,
   },
+  {
+    ...ControlDefaults,
+    image: "example5.png",
+    maxRadius: 1,
+    spacing: 1,
+    vOffset: 0,
+    colorMode: ColorModes.rgb,
+    paletteSize: 12, // 12
+    contrast: 1,
+    brightness: 0,
+  },
 ];
 // ControlDefaults.example = Math.floor(Math.random() * Examples.length); // buggy
 export const Controls = ({

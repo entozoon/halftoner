@@ -9,11 +9,17 @@ body {
 }
 .App {
   display: flex;
+}
+.output-wrapper {
+  display: flex;
   align-items: center;
   flex-flow: wrap;
   @media (min-width: 768px) {
     flex-flow: row;
   }
+}
+pre {
+  font-size: 0.5em;
 }
 aside {
   padding: 0 0.5em;

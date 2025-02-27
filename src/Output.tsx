@@ -13,10 +13,23 @@ import {
   pixelBrightness,
 } from "./pixels";
 import { Helmet } from "react-helmet";
+const createAsciiFromPixels = (pixels) => {
+  const ascii = pixels
+    .map(({ pixel, newLine }) => {
+      const { r, g, b, a } = pixel;
+      const brightness = getPixelBrightness(r, g, b, a);
+      const ascii = brightness > 0.8 ? " " : brightness > 0.4 ? "░" : "█";
+      return newLine ? `\n${ascii}` : ascii;
+    })
+    .join("");
+  return ascii;
+};
 export const Output = () => {
   const contextImage = useContext(ContextImage);
   const contextControls = useContext(ContextControls);
   const [outputImage, setOutputImage] = useState("");
+  const [pixelsOutput, setPixelsOutput] = useState([]);
+  const [asciiOutput, setAsciiOutput] = useState("");
   // useEffect trigger whenever contextControls or contextImage changes
   useEffect(() => {
     if (!contextControls) return;
@@ -43,28 +56,26 @@ export const Output = () => {
         image.width,
         image.height
       ).data;
+      const _pixelsOutput = [];
       const palette =
         paletteSize <= 10
           ? getPaletteFromPixelArray(allPixels, paletteSize)
           : undefined;
       for (
-        let _x = 0, _xI = 0;
-        _x < image.width;
-        _x += spacing * maxRadius, _xI++
+        let _y = 0, _yI = 0;
+        _y < image.height;
+        _y += spacing * maxRadius, _yI++
       ) {
         for (
-          let _y = 0, _yI = 0;
-          _y < image.height;
-          _y += spacing * maxRadius, _yI++
+          let _x = 0, _xI = 0;
+          _x < image.width;
+          _x += spacing * maxRadius, _xI++
         ) {
           let x = _x;
           let y = _y;
           // vOffset
           if (_xI % 2 === 0) y += vOffset * maxRadius;
           if (x >= 0 && x < image.width && y >= 0 && y < image.height) {
-            // const pixel = ctxInput.getImageData(x, y, 1, 1).data;
-            // const [r, g, b, a] = pixel;
-            //
             const pixels = getPixelsForArea(
               image,
               ctxInput,
@@ -72,23 +83,24 @@ export const Output = () => {
               y,
               maxRadius * 2
             );
-            // renderPixelsToConsole(pixels, maxRadius * 2);
             const pixelAverage = getAveragePixelFromPixelArray(pixels);
-            // Color modes
             let pixel = pixelAverage;
             pixel = pixelContrast(pixel, contrast);
             pixel = pixelBrightness(pixel, brightness);
             pixel = modifyPixelByColorMode(pixel, colorMode, palette);
+            _pixelsOutput.push({
+              x,
+              y,
+              pixel,
+              newLine: _xI === 0 && _yI !== 0,
+            });
             const { r, g, b, a } = pixel;
-            // Get pixel brightness factor
             const _brightness = getPixelBrightness(r, g, b, a);
-            // Amplitude modulation of radius by brightness
             let radius = maxRadius - maxRadius * _brightness;
             if (colorMode === ColorModes.monochromish) {
               radius = maxRadius - maxRadius * (a / 255);
               console.log(":: ~ a:", a);
             }
-            // Draw circle
             ctxOutput.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
             ctxOutput.beginPath();
             ctxOutput.arc(x, y, radius, 0, 2 * Math.PI);
@@ -96,24 +108,32 @@ export const Output = () => {
           }
         }
       }
+      setPixelsOutput(_pixelsOutput);
       setOutputImage(ctxOutput.canvas.toDataURL());
     };
   }, [contextImage, contextControls]);
+  useEffect(() => {
+    setAsciiOutput(createAsciiFromPixels(pixelsOutput));
+  }, [pixelsOutput]);
   return (
     <>
       {/* // add data-colormode to body with Helmet */}
       <Helmet
         bodyAttributes={{ "data-colorMode": contextControls?.colorMode }}
       />
-
-      <div className="canvas-wrapper input">
-        <canvas>{contextImage?.name}</canvas>
-      </div>
-      <div className="canvas-wrapper output">
-        <canvas>{contextImage?.name}</canvas>
-      </div>
-      <div className="output">
-        <img src={outputImage} />
+      <div>
+        <div className="output-wrapper">
+          <div className="canvas-wrapper input">
+            <canvas>{contextImage?.name}</canvas>
+          </div>
+          <div className="canvas-wrapper output">
+            <canvas>{contextImage?.name}</canvas>
+          </div>
+          <div className="output">
+            <img src={outputImage} />
+          </div>
+        </div>
+        <pre contentEditable>{asciiOutput}</pre>
       </div>
     </>
   );
